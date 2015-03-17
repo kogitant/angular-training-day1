@@ -1,5 +1,29 @@
-<p>This is the partial for view 2.</p>
-<p>
-  Showing of 'interpolate' filter:
-  {{ 'Current version is v%VERSION%.' | interpolate }}
-</p>
+<h1>FunChat</h1>
+<div ng-if="error">
+    <b>{{error}}</b>
+</div>
+<div ng-repeat="message in messages |  orderBy:'-created' | limitTo:10 | orderBy: 'created'">
+    <!--
+    <pre>{{message | json}}</pre>
+    -->
+    <!-- {"content":"bae","author":"foo","_id":"545b7e3c9220c00b00d287f8","__v":0,"modified":null,"created":"2014-11-06T13:57:16.706Z"}, -->
+    <span ng-bind="message.created">Timestamp</span>
+    <span ng-bind="message.author">Author</span>
+    <span ng-bind="message.content">Message</span>
+
+    <span ng-click='remove(message)'><img ng-src="/asset/icons/trash_can.png" /></span>
+    <span ng-click='edit(message)'>Edit</span>
+
+</div>
+<div id="updatespinner">
+    <span ng-show="updating"><img ng-src="/asset/icons/ajax-loader.gif" /></span>
+</div>
+
+<form ng-controller="ChatFormController" ng-submit="submit()">
+    <input name="author" type="text" ng-model="message.author" required />
+    <input name="content" type="text" ng-model="message.content" required />
+    <input type="submit" id="submit" value="Send" />
+    <span ng-click='cancel()'>Cancel</span>
+</form>
+
+
